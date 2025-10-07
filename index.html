@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construcción de Experiencias de Aprendizaje Basadas en IA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .pdf-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .pdf-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .pdf-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .pdf-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin: 30px 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .tools-section {
+            margin-top: 30px;
+        }
+
+        .tool-card {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .tool-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .tool-description {
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .tool-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-link:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .tab-button {
+                padding: 12px 20px;
+                font-size: 0.9em;
+            }
+
+            .tab-content {
+                padding: 25px;
+            }
+
+            .pdf-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .intro-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CONSTRUCCIÓN DE EXPERIENCIAS DE APRENDIZAJE BASADAS EN INTELIGENCIA ARTIFICIAL</h1>
+            <p class="subtitle">Recursos educativos innovadores para el futuro del aprendizaje</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('recursos')">📚 Recursos PDF</button>
+            <button class="tab-button" onclick="openTab('herramientas')">🛠️ Herramientas IA</button>
+            <button class="tab-button" onclick="openTab('videos')">🎥 Videos del Curso</button>
+        </div>
+
+        <div id="recursos" class="tab-content active">
+            <h2 class="section-title">Materiales del Curso</h2>
+            <p class="intro-text">
+                Descarga los <span class="highlight">recursos educativos</span> completos del curso. 
+                Cada sección contiene material especializado sobre diferentes aspectos de la IA aplicada a la educación.
+            </p>
+
+            <div class="pdf-grid">
+                <div class="pdf-card">
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-title">Sección 1: Introducción a la IA</div>
+                    <p style="color: #666; margin: 10px 0;">Fundamentos de IA y su aplicación en recursos educativos</p>
+                    <a href="pdfs/Seccion1.pdf" class="download-btn" download>Descargar PDF</a>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-title">Sección 2: Diseño Pedagógico</div>
+                    <p style="color: #666; margin: 10px 0;">Planeación, actividades y evaluación con IA</p>
+                    <a href="pdfs/Seccion2.pdf" class="download-btn" download>Descargar PDF</a>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-title">Sección 3: Generación de Imágenes</div>
+                    <p style="color: #666; margin: 10px 0;">Creación de gráficos y diagramas con IA</p>
+                    <a href="pdfs/Seccion3.pdf" class="download-btn" download>Descargar PDF</a>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-title">Sección 4: Animaciones y Videos</div>
+                    <p style="color: #666; margin: 10px 0;">Generación de contenido multimedia con IA</p>
+                    <a href="pdfs/Seccion4.pdf" class="download-btn" download>Descargar PDF</a>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-title">Sección 5: Dilemas Éticos</div>
+                    <p style="color: #666; margin: 10px 0;">Consideraciones éticas en el uso de IA</p>
+                    <a href="pdfs/Seccion5.pdf" class="download-btn" download>Descargar PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="herramientas" class="tab-content">
+            <h2 class="section-title">Herramientas de Inteligencia Artificial</h2>
+            <p class="intro-text">
+                Explora las mejores <span class="highlight">herramientas de IA</span> disponibles para potenciar 
+                tu experiencia educativa y profesional.
+            </p>
+
+            <div class="tools-section">
+                <div class="tool-card">
+                    <div class="tool-title">🚀 Toolify AI</div>
+                    <div class="tool-description">
+                        Directorio completo de herramientas de inteligencia artificial. Descubre miles de aplicaciones 
+                        de IA organizadas por categorías: generación de texto, imágenes, videos, productividad, educación y más.
+                    </div>
+                    <a href="https://www.toolify.ai/es/" target="_blank" class="tool-link">Explorar Toolify →</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-title">🎨 Generadores de Imágenes</div>
+                    <div class="tool-description">
+                        Herramientas como DALL-E, Midjourney, Stable Diffusion y Google Imagen para crear contenido visual educativo impactante.
+                    </div>
+                    <a href="https://www.toolify.ai/es/" target="_blank" class="tool-link">Ver Herramientas →</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-title">💬 Chatbots Educativos</div>
+                    <div class="tool-description">
+                        Claude, ChatGPT, Gemini y otras plataformas conversacionales para asistencia en aprendizaje, 
+                        creación de contenidos y tutoría personalizada.
+                    </div>
+                    <a href="https://www.toolify.ai/es/" target="_blank" class="tool-link">Ver Chatbots →</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-title">🎬 Creación de Videos</div>
+                    <div class="tool-description">
+                        Plataformas como Kling AI, Runway ML y herramientas de Google Labs para generar animaciones 
+                        y videos educativos con inteligencia artificial.
+                    </div>
+                    <a href="https://www.toolify.ai/es/" target="_blank" class="tool-link">Ver Generadores →</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-title">📊 Análisis y Visualización</div>
+                    <div class="tool-description">
+                        Herramientas para crear gráficos, diagramas y visualizaciones de datos que faciliten 
+                        la comprensión de conceptos complejos.
+                    </div>
+                    <a href="https://www.toolify.ai/es/" target="_blank" class="tool-link">Explorar Opciones →</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="videos" class="tab-content">
+            <h2 class="section-title">Videos del Curso</h2>
+            <p class="intro-text">
+                Accede a todas las <span class="highlight">grabaciones completas</span> del curso. 
+                Aprende a tu propio ritmo con contenido de alta calidad.
+            </p>
+
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/videoseries?list=PL5F_qDaUtBxt9juNccL6mz0O3OVtOedZw" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="https://www.youtube.com/playlist?list=PL5F_qDaUtBxt9juNccL6mz0O3OVtOedZw" 
+                   target="_blank" 
+                   class="tool-link" 
+                   style="font-size: 1.1em; padding: 15px 35px;">
+                    📺 Ver Lista Completa en YouTube
+                </a>
+            </div>
+
+            <div style="margin-top: 40px; padding: 30px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 15px; color: white;">
+                <h3 style="margin-bottom: 15px; font-size: 1.5em;">💡 Recomendaciones para el Aprendizaje</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 10px 0; font-size: 1.1em;">✓ Toma notas durante los videos</li>
+                    <li style="padding: 10px 0; font-size: 1.1em;">✓ Practica con las herramientas mencionadas</li>
+                    <li style="padding: 10px 0; font-size: 1.1em;">✓ Revisa los PDFs complementarios</li>
+                    <li style="padding: 10px 0; font-size: 1.1em;">✓ Experimenta con diferentes prompts</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p style="font-size: 1.1em; margin-bottom: 10px;">
+                <strong>Construcción de Experiencias de Aprendizaje Basadas en IA</strong>
+            </p>
+            <p>Innovando en educación con inteligencia artificial</p>
+            <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">
+                © 2025 - Todos los derechos reservados
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            const contents = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-button');
+            
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
