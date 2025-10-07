@@ -291,6 +291,96 @@
             background-clip: text;
             font-weight: 700;
         }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .photo-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f5f5f5;
+            aspect-ratio: 4/3;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card:hover .photo-overlay {
+            transform: translateY(0);
+        }
+
+        .photo-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .photo-description {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 1001;
+        }
     </style>
 </head>
 <body>
@@ -304,6 +394,7 @@
             <button class="tab-button active" onclick="openTab('recursos')">📚 Recursos PDF</button>
             <button class="tab-button" onclick="openTab('herramientas')">🛠️ Herramientas IA</button>
             <button class="tab-button" onclick="openTab('videos')">🎥 Videos del Curso</button>
+            <button class="tab-button" onclick="openTab('evidencias')">📸 Evidencias</button>
         </div>
 
         <div id="recursos" class="tab-content active">
@@ -318,35 +409,42 @@
                     <div class="pdf-icon">📄</div>
                     <div class="pdf-title">Sección 1: Introducción a la IA</div>
                     <p style="color: #666; margin: 10px 0;">Fundamentos de IA y su aplicación en recursos educativos</p>
-                    <a href="pdfs/Seccion 1.pdf" class="download-btn" download>Descargar PDF</a>
+                    <a href="pdfs/Seccion1.pdf" class="download-btn" download>Descargar PDF</a>
                 </div>
 
                 <div class="pdf-card">
                     <div class="pdf-icon">📄</div>
                     <div class="pdf-title">Sección 2: Diseño Pedagógico</div>
                     <p style="color: #666; margin: 10px 0;">Planeación, actividades y evaluación con IA</p>
-                    <a href="pdfs/Seccion 2.pdf" class="download-btn" download>Descargar PDF</a>
+                    <a href="pdfs/Seccion2.pdf" class="download-btn" download>Descargar PDF</a>
                 </div>
 
                 <div class="pdf-card">
                     <div class="pdf-icon">📄</div>
                     <div class="pdf-title">Sección 3: Generación de Imágenes</div>
                     <p style="color: #666; margin: 10px 0;">Creación de gráficos y diagramas con IA</p>
-                    <a href="pdfs/Seccion 3.pdf" class="download-btn" download>Descargar PDF</a>
+                    <a href="pdfs/Seccion3.pdf" class="download-btn" download>Descargar PDF</a>
                 </div>
 
                 <div class="pdf-card">
                     <div class="pdf-icon">📄</div>
                     <div class="pdf-title">Sección 4: Animaciones y Videos</div>
                     <p style="color: #666; margin: 10px 0;">Generación de contenido multimedia con IA</p>
-                    <a href="pdfs/Seccion 4.pdf" class="download-btn" download>Descargar PDF</a>
+                    <a href="pdfs/Seccion4.pdf" class="download-btn" download>Descargar PDF</a>
                 </div>
 
                 <div class="pdf-card">
                     <div class="pdf-icon">📄</div>
                     <div class="pdf-title">Sección 5: Dilemas Éticos</div>
                     <p style="color: #666; margin: 10px 0;">Consideraciones éticas en el uso de IA</p>
-                    <a href="pdfs/Seccion 5.pdf" class="download-btn" download>Descargar PDF</a>
+                    <a href="pdfs/Seccion5.pdf" class="download-btn" download>Descargar PDF</a>
+                </div>
+
+                <div class="pdf-card" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                    <div class="pdf-icon">📋</div>
+                    <div class="pdf-title">Registro de Asistencia</div>
+                    <p style="color: #666; margin: 10px 0;">Control de participación y evidencia del curso</p>
+                    <a href="pdfs/asistencia.pdf" class="download-btn" download>Descargar PDF</a>
                 </div>
             </div>
         </div>
@@ -440,6 +538,79 @@
             </div>
         </div>
 
+        <div id="evidencias" class="tab-content">
+            <h2 class="section-title">Evidencias del Curso</h2>
+            <p class="intro-text">
+                Explora las <span class="highlight">experiencias vividas</span> durante nuestras sesiones de formación. 
+                Momentos de aprendizaje, colaboración y descubrimiento en inteligencia artificial.
+            </p>
+
+            <div class="gallery-grid">
+                <div class="photo-card" onclick="openLightbox('images/foto1.jpg')">
+                    <img src="images/foto1.jpg" alt="Sesión de formación IA" onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=Sesion+de+Formacion+1'">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Sesión Interactiva</div>
+                        <div class="photo-description">Instructores y participantes colaborando en proyectos de IA</div>
+                    </div>
+                </div>
+
+                <div class="photo-card" onclick="openLightbox('images/foto2.jpg')">
+                    <img src="images/foto2.jpg" alt="Participantes del curso" onerror="this.src='https://via.placeholder.com/400x300/764ba2/ffffff?text=Participantes+del+Curso'">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Aprendizaje Colaborativo</div>
+                        <div class="photo-description">Trabajo en equipo aplicando herramientas de IA</div>
+                    </div>
+                </div>
+
+                <div class="photo-card" onclick="openLightbox('images/foto3.jpg')">
+                    <img src="images/foto3.jpg" alt="Ambiente de aprendizaje" onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=Ambiente+de+Aprendizaje'">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Grupo Completo</div>
+                        <div class="photo-description">Participantes comprometidos con la innovación educativa</div>
+                    </div>
+                </div>
+
+                <div class="photo-card" onclick="openLightbox('images/foto4.jpg')">
+                    <img src="images/foto4.jpg" alt="Sesión práctica" onerror="this.src='https://via.placeholder.com/400x300/8ec5fc/ffffff?text=Sesion+Practica'">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Momento de Práctica</div>
+                        <div class="photo-description">Aplicación práctica de conceptos de IA en educación</div>
+                    </div>
+                </div>
+
+                <div class="photo-card" onclick="openLightbox('images/foto5.jpg')">
+                    <img src="images/foto5.jpg" alt="Capacitación activa" onerror="this.src='https://via.placeholder.com/400x300/e0c3fc/ffffff?text=Capacitacion+Activa'">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Sesión de Capacitación</div>
+                        <div class="photo-description">Instructores guiando el proceso de aprendizaje</div>
+                    </div>
+                </div>
+
+                <div class="photo-card" onclick="openLightbox('images/foto6.jpg')">
+                    <img src="images/foto6.jpg" alt="Trabajo colaborativo" onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=Trabajo+Colaborativo'">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Colaboración Activa</div>
+                        <div class="photo-description">Participantes desarrollando proyectos con IA</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; padding: 30px; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-radius: 15px;">
+                <h3 style="margin-bottom: 15px; font-size: 1.5em; color: #333;">🎓 Sobre el Curso</h3>
+                <p style="font-size: 1.1em; color: #555; line-height: 1.8;">
+                    Este curso ha sido diseñado para capacitar a instructores y profesionales en el uso efectivo de 
+                    herramientas de inteligencia artificial para la construcción de experiencias de aprendizaje innovadoras. 
+                    Los participantes han explorado desde los fundamentos de la IA hasta aplicaciones prácticas en la 
+                    generación de contenido educativo multimedia.
+                </p>
+            </div>
+        </div>
+
+        <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+            <span class="lightbox-close">&times;</span>
+            <img id="lightbox-img" src="" alt="Imagen ampliada">
+        </div>
+
         <footer>
             <p style="font-size: 1.1em; margin-bottom: 10px;">
                 <strong>Construcción de Experiencias de Aprendizaje Basadas en IA</strong>
@@ -472,7 +643,25 @@
                 behavior: 'smooth'
             });
         }
+
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = imageSrc;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+        }
+
+        // Cerrar lightbox con la tecla Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeLightbox();
+            }
+        });
     </script>
 </body>
-
 </html>
